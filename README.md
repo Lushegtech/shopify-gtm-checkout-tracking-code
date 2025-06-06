@@ -1,6 +1,13 @@
 # Shopify GTM Checkout Tracking Code
 
-This project provides a complete Google Tag Manager (GTM) integration for Shopify checkout tracking. It pushes detailed checkout and purchase events to the `dataLayer` for use with GTM and Google Analytics 4 (GA4).
+This project provides a complete Google Tag Manager (GTM) integration for Shopify checkout tracking.
+
+> **Note:**  
+> This script is designed to push checkout and ecommerce events to the `dataLayer` for use with **Google Tag Manager (GTM)**.  
+> 
+> **GTM acts as a bridge**—it listens for these events and can forward them to any analytics or marketing platform you configure in GTM, such as **Google Analytics 4 (GA4)**, Google Ads, Facebook Pixel, and more.
+>
+> While the event names and data structure are compatible with GA4’s recommended ecommerce events, you are not limited to GA4. You can use these events for any other tags or platforms supported by GTM.
 
 ## Features
 
