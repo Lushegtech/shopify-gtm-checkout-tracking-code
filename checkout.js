@@ -3,10 +3,8 @@
 
 const GTM_CONTAINER_ID = 'GTM-XXXXXXX'; // REPLACE WITH YOUR GTM ID
 
-// Initialize dataLayer
 window.dataLayer = window.dataLayer || [];
 
-// Push initial page data
 const initContextData = init.context?.document;
 dataLayer.push({
     page_location: initContextData?.location?.href,
@@ -14,7 +12,6 @@ dataLayer.push({
     page_title: initContextData?.title,
 });
 
-// Load GTM
 (function(w,d,s,l,i){
     w[l]=w[l]||[];
     w[l].push({'gtm.start': new Date().getTime(), event:'gtm.js'});
@@ -25,7 +22,6 @@ dataLayer.push({
     f.parentNode.insertBefore(j,f);
 })(window,document,'script','dataLayer', GTM_CONTAINER_ID);
 
-// Helper function to process checkout products
 function processCheckoutProducts(lineItems) {
     if (!lineItems) return [];
     
@@ -43,8 +39,7 @@ function processCheckoutProducts(lineItems) {
                 itemDiscountAmount += allocation.amount.amount;
             });
         }
-        
-        // Calculate price after discount
+
         const itemPrice = item.variant.price.amount;
         const priceAfterDiscount = Math.max(itemPrice - (itemDiscountAmount / item.quantity), 0);
         
@@ -64,7 +59,6 @@ function processCheckoutProducts(lineItems) {
     });
 }
 
-// Helper function to calculate order totals
 function calculateOrderTotals(checkout) {
     const orderDiscountAmount = checkout.discountsAmount?.amount || 0;
     const totalPrice = checkout.totalPrice.amount;
@@ -81,7 +75,6 @@ function calculateOrderTotals(checkout) {
     };
 }
 
-// Track all checkout events
 const checkoutEvents = [
     'checkout_started',
     'checkout_contact_info_submitted', 
@@ -94,7 +87,6 @@ const checkoutEvents = [
     'ui_extension_errored'
 ];
 
-// CHECKOUT_STARTED
 analytics.subscribe('checkout_started', (event) => {
     const checkout = event.data?.checkout;
     const eventContextData = event.context?.document;
@@ -122,7 +114,6 @@ analytics.subscribe('checkout_started', (event) => {
     window.dataLayer.push(dataLayerObj);
 });
 
-// CHECKOUT_CONTACT_INFO_SUBMITTED
 analytics.subscribe('checkout_contact_info_submitted', (event) => {
     const checkout = event.data?.checkout;
     const eventContextData = event.context?.document;
@@ -149,7 +140,6 @@ analytics.subscribe('checkout_contact_info_submitted', (event) => {
     window.dataLayer.push(dataLayerObj);
 });
 
-// CHECKOUT_ADDRESS_INFO_SUBMITTED
 analytics.subscribe('checkout_address_info_submitted', (event) => {
     const checkout = event.data?.checkout;
     const eventContextData = event.context?.document;
@@ -175,7 +165,6 @@ analytics.subscribe('checkout_address_info_submitted', (event) => {
     window.dataLayer.push(dataLayerObj);
 });
 
-// CHECKOUT_SHIPPING_INFO_SUBMITTED
 analytics.subscribe('checkout_shipping_info_submitted', (event) => {
     const checkout = event.data?.checkout;
     const eventContextData = event.context?.document;
@@ -204,7 +193,6 @@ analytics.subscribe('checkout_shipping_info_submitted', (event) => {
     window.dataLayer.push(dataLayerObj);
 });
 
-// PAYMENT_INFO_SUBMITTED
 analytics.subscribe('payment_info_submitted', (event) => {
     const checkout = event.data?.checkout;
     const eventContextData = event.context?.document;
@@ -232,7 +220,6 @@ analytics.subscribe('payment_info_submitted', (event) => {
     window.dataLayer.push(dataLayerObj);
 });
 
-// CHECKOUT_COMPLETED
 analytics.subscribe('checkout_completed', (event) => {
     const checkout = event.data?.checkout;
     const eventContextData = event.context?.document;
@@ -268,7 +255,6 @@ analytics.subscribe('checkout_completed', (event) => {
     window.dataLayer.push(dataLayerObj);
 });
 
-// PAGE_VIEWED (on checkout pages)
 analytics.subscribe('page_viewed', (event) => {
     const eventContextData = event.context?.document;
     
@@ -283,7 +269,6 @@ analytics.subscribe('page_viewed', (event) => {
     window.dataLayer.push(dataLayerObj);
 });
 
-// ALERT_DISPLAYED (checkout validation errors)
 analytics.subscribe('alert_displayed', (event) => {
     const eventContextData = event.context?.document;
     
@@ -298,7 +283,6 @@ analytics.subscribe('alert_displayed', (event) => {
     window.dataLayer.push(dataLayerObj);
 });
 
-// UI_EXTENSION_ERRORED (checkout extension errors)
 analytics.subscribe('ui_extension_errored', (event) => {
     const eventContextData = event.context?.document;
     
@@ -313,9 +297,6 @@ analytics.subscribe('ui_extension_errored', (event) => {
     window.dataLayer.push(dataLayerObj);
 });
 
-// ADDITIONAL EVENTS FOR LEGACY CHECKOUTS
-
-// Form submissions (for older checkouts)
 analytics.subscribe('form_submitted', (event) => {
     const eventContextData = event.context?.document;
     const decodedAction = decodeURIComponent(event.data?.element?.action || '');
@@ -334,7 +315,6 @@ analytics.subscribe('form_submitted', (event) => {
     }
 });
 
-// Click tracking (for older checkouts)
 if (initContextData?.location?.href.includes('/checkouts/')) {
     analytics.subscribe('clicked', (event) => {
         const element = event.data?.element;
